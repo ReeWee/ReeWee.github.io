@@ -1,22 +1,72 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Black Circle on White Background</title>
-	<style>
-		.circle {
-			width: 100px;
-			height: 100px;
-			border-radius: 50%;
-			background-color: black;
-		}
-		body {
-			background-color: white;
-			margin: 0;
-			padding: 0;
-		}
-	</style>
-</head>
-<body>
-	<div class="circle"></div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bouncing Disks</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="600" height="400"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      const numDisks = 3000;
+      const disks = [];
+
+      for (let i = 0; i < numDisks; i++) {
+        disks.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: 3,
+          color: "blue",
+          velocityX: Math.random() * 1 - 0.5,
+          velocityY: Math.random() * 1 - 0.5,
+        });
+      }
+
+      function drawDisk(disk) {
+        ctx.beginPath();
+        ctx.arc(disk.x, disk.y, disk.radius, 0, Math.PI * 2);
+        ctx.fillStyle = disk.color;
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      function moveDisk(disk) {
+        disk.x += disk.velocityX;
+        disk.y += disk.velocityY;
+
+        if (disk.x + disk.radius >= canvas.width || disk.x - disk.radius <= 0) {
+          disk.velocityX = -disk.velocityX;
+        }
+
+        if (disk.y + disk.radius >= canvas.height || disk.y - disk.radius <= 0) {
+          disk.velocityY = -disk.velocityY;
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < numDisks; i++) {
+          drawDisk(disks[i]);
+        }
+      }
+
+      function update() {
+        for (let i = 0; i < numDisks; i++) {
+          moveDisk(disks[i]);
+        }
+        draw();
+        requestAnimationFrame(update);
+      }
+
+      update();
+    </script>
+  </body>
 </html>
