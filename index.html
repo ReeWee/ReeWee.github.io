@@ -10,7 +10,7 @@
     </style>
   </head>
   <body>
-    <canvas id="canvas" width="500" height="500"></canvas>
+    <canvas id="canvas" width="600" height="600"></canvas>
     <script>
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
@@ -18,7 +18,10 @@
       const numDisks = 4000;
       const disks = [];
       
-      const maxSpeed = 1;
+      const maxSpeed = 2;
+      const damp = 0.01;
+      const idleSpeed = 0.3;
+
 
       for (let i = 0; i < numDisks; i++) {
         disks.push({
@@ -40,12 +43,32 @@
           const dy = disks[i].y - mouseY;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 50) {
+          if (distance < 70) {
             disks[i].velocityX += (dx / distance) * 0.1;
             disks[i].velocityY += (dy / distance) * 0.1;
             
             
             
+          }
+          
+          if(disks[i].velocityX > idleSpeed)
+          {
+            disks[i].velocityX -= damp;
+          }
+          
+          if(disks[i].velocityX < -idleSpeed)
+          {
+            disks[i].velocityX -= -damp;
+          }
+          
+           if(disks[i].velocityY > idleSpeed)
+          {
+            disks[i].velocityY -= damp;
+          }
+          
+          if(disks[i].velocityY < -idleSpeed)
+          {
+            disks[i].velocityY -= -damp;
           }
           
           if(disks[i].velocityX > maxSpeed)
@@ -67,6 +90,8 @@
           {
             disks[i].velocityY = -maxSpeed;
           }
+          
+          
         }
       });
 
@@ -134,8 +159,8 @@
           neighborBlue /= count;
 
           // Blend the pixel with its neighbors
-          data[i] = (red + neighborRed) / 2.015;
-          data[i + 1] = (green + neighborGreen) / 2.015;
+          data[i] = (red + neighborRed) / 2.15;
+          data[i + 1] = (green + neighborGreen) / 2.15;
           data[i + 2] = (blue + neighborBlue) / 2.015;
         }
 
