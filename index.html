@@ -6,6 +6,7 @@
     <style>
       canvas {
         border: 1px solid black;
+	background-color: black;
       }
     </style>
   </head>
@@ -15,12 +16,12 @@
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
 
-      const numDisks = 4000;
+      const numDisks = 2000;
       const disks = [];
       
       const maxSpeed = 2;
-      const damp = 0.01;
-      const idleSpeed = 0.3;
+      const damp = 0.006;
+      const idleSpeed = 0.5;
 
 
       for (let i = 0; i < numDisks; i++) {
@@ -159,9 +160,9 @@
           neighborBlue /= count;
 
           // Blend the pixel with its neighbors
-          data[i] = (red + neighborRed) / 2.15;
-          data[i + 1] = (green + neighborGreen) / 2.15;
-          data[i + 2] = (blue + neighborBlue) / 2.015;
+          data[i] = (red + neighborRed) / 2.015;
+          data[i + 1] = (green + neighborGreen) / 2.015;
+          data[i + 2] = (blue + neighborBlue) / 2.0015;
         }
 
         ctx.putImageData(imageData, 0, 0);
